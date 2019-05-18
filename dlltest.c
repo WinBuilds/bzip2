@@ -33,14 +33,14 @@ int BZ2DLLLoadLibrary(void)
       fprintf(stderr,"Can't load %s\n",BZ2_LIBNAME);
       return -1;
    }
-   BZ2_bzlibVersion=GetProcAddress(hLib,"BZ2_bzlibVersion");
-   BZ2_bzopen=GetProcAddress(hLib,"BZ2_bzopen");
-   BZ2_bzdopen=GetProcAddress(hLib,"BZ2_bzdopen");
-   BZ2_bzread=GetProcAddress(hLib,"BZ2_bzread");
-   BZ2_bzwrite=GetProcAddress(hLib,"BZ2_bzwrite");
-   BZ2_bzflush=GetProcAddress(hLib,"BZ2_bzflush");
-   BZ2_bzclose=GetProcAddress(hLib,"BZ2_bzclose");
-   BZ2_bzerror=GetProcAddress(hLib,"BZ2_bzerror");
+   (FARPROC)BZ2_bzlibVersion=GetProcAddress(hLib,"BZ2_bzlibVersion");
+   (FARPROC)BZ2_bzopen=GetProcAddress(hLib,"BZ2_bzopen");
+   (FARPROC)BZ2_bzdopen=GetProcAddress(hLib,"BZ2_bzdopen");
+   (FARPROC)BZ2_bzread=GetProcAddress(hLib,"BZ2_bzread");
+   (FARPROC)BZ2_bzwrite=GetProcAddress(hLib,"BZ2_bzwrite");
+   (FARPROC)BZ2_bzflush=GetProcAddress(hLib,"BZ2_bzflush");
+   (FARPROC)BZ2_bzclose=GetProcAddress(hLib,"BZ2_bzclose");
+   (FARPROC)BZ2_bzerror=GetProcAddress(hLib,"BZ2_bzerror");
 
    if (!BZ2_bzlibVersion || !BZ2_bzopen || !BZ2_bzdopen
        || !BZ2_bzread || !BZ2_bzwrite || !BZ2_bzflush
@@ -55,9 +55,12 @@ int BZ2DLLLoadLibrary(void)
 }
 int BZ2DLLFreeLibrary(void)
 {
-   if(BZ2DLLLoaded==0){return 0;}
-   FreeLibrary(BZ2DLLhLib);
-   BZ2DLLLoaded=0;
+   if (BZ2DLLLoaded) {
+      FreeLibrary(BZ2DLLhLib);
+      BZ2DLLLoaded = 0;
+   }
+
+   return 0;   
 }
 #endif /* WIN32 */
 

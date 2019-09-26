@@ -48,7 +48,7 @@ extern "C" {
 typedef 
    struct {
       char *next_in;
-      unsigned int avail_in;
+      size_t avail_in;
       unsigned int total_in_lo32;
       unsigned int total_in_hi32;
 
@@ -142,7 +142,7 @@ BZ_EXTERN BZFILE* BZ_API(BZ2_bzReadOpen) (
       int   verbosity, 
       int   small,
       void* unused,    
-      int   nUnused 
+      size_t nUnused 
    );
 
 BZ_EXTERN void BZ_API(BZ2_bzReadClose) ( 
@@ -154,7 +154,7 @@ BZ_EXTERN void BZ_API(BZ2_bzReadGetUnused) (
       int*    bzerror, 
       BZFILE* b, 
       void**  unused,  
-      int*    nUnused 
+      size_t*    nUnused 
    );
 
 BZ_EXTERN int BZ_API(BZ2_bzRead) ( 

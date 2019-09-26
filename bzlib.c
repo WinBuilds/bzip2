@@ -893,7 +893,7 @@ typedef
    struct {
       FILE*     handle;
       Char      buf[BZ_MAX_UNUSED];
-      Int32     bufN;
+      size_t     bufN;
       Bool      writing;
       bz_stream strm;
       Int32     lastErr;
@@ -967,7 +967,8 @@ void BZ_API(BZ2_bzWrite)
                void*   buf, 
                int     len )
 {
-   Int32 n, n2, ret;
+   size_t n, n2;
+   Int32 ret;
    bzFile* bzf = (bzFile*)b;
 
    BZ_SETERR(BZ_OK);
@@ -1027,7 +1028,8 @@ void BZ_API(BZ2_bzWriteClose64)
                     unsigned int* nbytes_out_lo32,
                     unsigned int* nbytes_out_hi32 )
 {
-   Int32   n, n2, ret;
+   size_t n, n2;
+   Int32 ret;
    bzFile* bzf = (bzFile*)b;
 
    if (bzf == NULL)
@@ -1090,7 +1092,7 @@ BZFILE* BZ_API(BZ2_bzReadOpen)
                      int   verbosity,
                      int   small,
                      void* unused,
-                     int   nUnused )
+                     size_t   nUnused )
 {
    bzFile* bzf = NULL;
    int     ret;
@@ -1164,7 +1166,8 @@ int BZ_API(BZ2_bzRead)
              void*   buf, 
              int     len )
 {
-   Int32   n, ret;
+   Int32   ret;
+   size_t n;
    bzFile* bzf = (bzFile*)b;
 
    BZ_SETERR(BZ_OK);
@@ -1222,7 +1225,7 @@ void BZ_API(BZ2_bzReadGetUnused)
                      ( int*    bzerror, 
                        BZFILE* b, 
                        void**  unused, 
-                       int*    nUnused )
+                       size_t*    nUnused )
 {
    bzFile* bzf = (bzFile*)b;
    if (bzf == NULL)
@@ -1396,7 +1399,7 @@ BZFILE * bzopen_or_bzdopen
    int    verbosity     = 0;
    int    workFactor    = 30;
    int    smallMode     = 0;
-   int    nUnused       = 0; 
+   size_t nUnused       = 0; 
 
    if (mode == NULL) return NULL;
    while (*mode) {

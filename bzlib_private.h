@@ -36,7 +36,7 @@
 
 /*-- General stuff. --*/
 
-#define BZ_VERSION  "1.0.5, 10-Dec-2007"
+#define BZ_VERSION  "1.0.6, 26-Sep-2019"
 
 typedef char            Char;
 typedef unsigned char   Bool;
@@ -204,7 +204,7 @@ typedef
       Int32    state;
 
       /* remembers avail_in when flush/finish requested */
-      UInt32   avail_in_expect;
+      size_t   avail_in_expect;
 
       /* for doing the block sorting */
       UInt32*  arr1;

@@ -120,7 +120,7 @@ static
 void generateMTFValues ( EState* s )
 {
    UChar   yy[256];
-   Int32   i, j;
+   Int32   i,j;   
    Int32   zPend;
    Int32   wr;
    Int32   EOB;
@@ -202,7 +202,7 @@ void generateMTFValues ( EState* s )
                *ryy_j = rtmp2;
             };
             yy[0] = rtmp;
-            j = ryy_j - &(yy[0]);
+            j = (Int32)(ryy_j - &(yy[0]));
             mtfv[wr] = j+1; wr++; s->mtfFreq[j+1]++;
          }
 

@@ -330,7 +330,7 @@ void compressStream ( FILE *stream, FILE *zStream )
 {
    BZFILE* bzf = NULL;
    UChar   ibuf[5000];
-   Int32   nIbuf;
+   size_t   nIbuf;
    UInt32  nbytes_in_lo32, nbytes_in_hi32;
    UInt32  nbytes_out_lo32, nbytes_out_hi32;
    Int32   bzerr, bzerr_dummy, ret;
@@ -433,15 +433,12 @@ static
 Bool uncompressStream ( FILE *zStream, FILE *stream )
 {
    BZFILE* bzf = NULL;
-   Int32   bzerr, bzerr_dummy, ret, nread, streamNo, i;
+   Int32   bzerr, bzerr_dummy, ret, nread, streamNo=0;
    UChar   obuf[5000];
    UChar   unused[BZ_MAX_UNUSED];
-   Int32   nUnused;
+   size_t   nUnused =0;
    void*   unusedTmpV;
    UChar*  unusedTmp;
-
-   nUnused = 0;
-   streamNo = 0;
 
    SET_BINARY_MODE(stream);
    SET_BINARY_MODE(zStream);
@@ -471,7 +468,7 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
       if (bzerr != BZ_OK) panic ( "decompress:bzReadGetUnused" );
 
       unusedTmp = (UChar*)unusedTmpV;
-      for (i = 0; i < nUnused; i++) unused[i] = unusedTmp[i];
+      for (size_t i = 0; i < nUnused; i++) unused[i] = unusedTmp[i];
 
       BZ2_bzReadClose ( &bzerr, bzf );
       if (bzerr != BZ_OK) panic ( "decompress:bzReadGetUnused" );
@@ -554,15 +551,12 @@ static
 Bool testStream ( FILE *zStream )
 {
    BZFILE* bzf = NULL;
-   Int32   bzerr, bzerr_dummy, ret, nread, streamNo, i;
+   Int32   bzerr, bzerr_dummy, ret, nread, streamNo=0;
    UChar   obuf[5000];
    UChar   unused[BZ_MAX_UNUSED];
-   Int32   nUnused;
+   size_t  nUnused=0;
    void*   unusedTmpV;
    UChar*  unusedTmp;
-
-   nUnused = 0;
-   streamNo = 0;
 
    SET_BINARY_MODE(zStream);
    if (ferror(zStream)) goto errhandler_io;
@@ -586,7 +580,7 @@ Bool testStream ( FILE *zStream )
       if (bzerr != BZ_OK) panic ( "test:bzReadGetUnused" );
 
       unusedTmp = (UChar*)unusedTmpV;
-      for (i = 0; i < nUnused; i++) unused[i] = unusedTmp[i];
+      for (size_t i = 0; i < nUnused; i++) unused[i] = unusedTmp[i];
 
       BZ2_bzReadClose ( &bzerr, bzf );
       if (bzerr != BZ_OK) panic ( "test:bzReadGetUnused" );
